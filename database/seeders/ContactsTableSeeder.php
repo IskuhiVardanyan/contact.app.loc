@@ -20,7 +20,7 @@ class ContactsTableSeeder extends Seeder
 //        DB::table('contacts')->truncate();
 
 //........Seeding with Factory...........
-        Contact::factory()->count(10)->create();
+       // Contact::factory()->count(10)->create();
 
 //........Seeding with seeder............
 //        $contacts = [];

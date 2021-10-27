@@ -19,7 +19,7 @@ class CompaniesTableSeeder extends Seeder
 //        DB::table('companies')->truncate();
 
 //........Seeding with Factory..................
-       Company::factory()->count(10)->create();
+       //Company::factory()->count(10)->create();
 
 //........Seeding with seeder..................
 //        $companies = [];
