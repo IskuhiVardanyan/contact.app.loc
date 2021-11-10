@@ -12,15 +12,17 @@ use Illuminate\Database\Eloquent\Builder;
 class ContactController extends Controller
 {
     public function index(){
-        $contacts = Contact::latestFirst()->filter()->paginate(10);
-        $companies = Company::orderBy('name')->pluck('name','id')->prepend('All companies', '');
+        $contacts = Contact::select('*')->paginate(10);
+        $companies = Company::orderBy('name')->pluck('name','id')
+            ->prepend('All companies', '');
         //dd($companies);
         return view('contacts.index', compact('contacts', 'companies'));
     }
 
     public function create(){
         $contact = new Contact();
-        $companies = Company::orderBy('name')->pluck('name', 'id')->prepend('All companies', '');
+        $companies = Company::orderBy('name')->pluck('name', 'id')
+            ->prepend('All companies', '');
        // dd($companies);
         return view('contacts.create', compact('companies', 'contact'));
     }
@@ -50,7 +52,8 @@ class ContactController extends Controller
 
     public function edit($id){
         $contact = Contact::findOrFail($id);
-        $companies = Company::orderBy('id')->pluck('name', 'id')->prepend('All companies', '');
+        $companies = Company::orderBy('id')->pluck('name', 'id')
+            ->prepend('All companies', '');
 
         return view('contacts.edit', compact('contact', 'companies'));
     }
