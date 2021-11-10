@@ -5,22 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Models\Contact;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class ContactController extends Controller
 {
-   public function index(){
-       $contacts = Contact::orderBy('id', 'desc')->where(function($query){
-           if($companyId = request('company_id')) {
-               $query->where('company_id', $companyId);
-           }
-       })->paginate(10);
-       $companies = Company::orderBy('name')->pluck('name', 'id')->prepend('All companies');
-       return view('contacts.index', compact('contacts', 'companies'));
-   }
+    public function index(){
+        $contacts = Contact::latestFirst()->filter()->paginate(10);
+        $companies = Company::orderBy('name')->pluck('name','id')->prepend('All companies', '');
+        //dd($companies);
+        return view('contacts.index', compact('contacts', 'companies'));
+    }
 
     public function create(){
         $contact = new Contact();
-        $companies = Company::orderBy('name')->pluck('name', 'id')->prepend('All companies');
+        $companies = Company::orderBy('name')->pluck('name', 'id')->prepend('All companies', '');
+       // dd($companies);
         return view('contacts.create', compact('companies', 'contact'));
     }
 
@@ -37,6 +38,7 @@ class ContactController extends Controller
             'address'       => 'required',
             'company_id'    => 'required|exists:companies,id'
         ]);
+       // dd($request->all());
         Contact::create($request->all());
         return redirect()->route('contacts.index')->with('message', 'Contact has been added successfully');
     }
@@ -48,7 +50,7 @@ class ContactController extends Controller
 
     public function edit($id){
         $contact = Contact::findOrFail($id);
-        $companies = Company::orderBy('name')->pluck('name', 'id')->prepend('All companies');
+        $companies = Company::orderBy('id')->pluck('name', 'id')->prepend('All companies', '');
 
         return view('contacts.edit', compact('contact', 'companies'));
     }
