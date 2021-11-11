@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Scopes\ContactScope;
+use App\Scopes\FilterScope;
+use App\Scopes\SearchScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -45,10 +46,10 @@ class Contact extends Model
         return $this->belongsTo(Company::class);
     }
 
-//    public function scopeLatestFirst($query) {
-//        return $query->orderBy('id', 'desc');
-//    }
-//
+    public function scopeLatestFirst($query) {
+        return $query->orderBy('id', 'desc');
+    }
+
 //    public function scopeFilter($query)
 //    {
 //        if($companyId = request('company_id')) {
@@ -61,8 +62,11 @@ class Contact extends Model
 //        }
 //        return $query;
 //    }
+
     protected static function booted()
     {
-        static::addGlobalScope(new ContactScope);
+//        parent::boot();
+        static::addGlobalScope(new FilterScope());
+        static::addGlobalScope(new SearchScope());
     }
 }

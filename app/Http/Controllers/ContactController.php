@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 class ContactController extends Controller
 {
     public function index(){
-        $contacts = Contact::select('*')->paginate(10);
+        $contacts = Contact::latestFirst()->paginate(10);
         $companies = Company::orderBy('name')->pluck('name','id')
             ->prepend('All companies', '');
         //dd($companies);
