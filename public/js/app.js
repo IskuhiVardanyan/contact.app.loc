@@ -12,9 +12,9 @@ deleteContactBtn.forEach(function (button){
             form.setAttribute('action', action);
             form.submit();
         }
-    })
-})
-
+    });
+});
+ 
 if(selectBox){
     selectBox.addEventListener('change', function () {
         let companyId = this.value || this.options[this.selectedIndex].value;
@@ -39,7 +39,7 @@ if(btnClear != null){
         } else {
             btnClear.style.display = 'none';
         }
-    }
+    };
 
     toggleClearButton();
 }

@@ -24,6 +24,8 @@ class CreateContactsTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade');
             $table->timestamps();
         });
+
+
     }
 
     /**

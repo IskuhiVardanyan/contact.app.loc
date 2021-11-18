@@ -50,6 +50,13 @@
             </div>
         </div>
 
+        <div class="form-group row" style="display: none;">
+            <div class="col-md-9">
+                <input type="text" name ="user_id" class="form-control"
+                       value="{{ Auth::id() }}">
+            </div>
+        </div>
+
         <div class="form-group row">
             <label for="name" class="col-md-3 col-form-label">Address</label>
             <div class="col-md-9">

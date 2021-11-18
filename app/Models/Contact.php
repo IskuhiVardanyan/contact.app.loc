@@ -40,12 +40,16 @@ class Contact extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['first_name', 'last_name', 'email', 'address', 'phone', 'company_id'];
+    protected $fillable = ['first_name', 'last_name', 'email', 'address', 'phone', 'company_id', 'user_id'];
 
     public $filterColumns = ['company_id'];
 
     public function company(){
         return $this->belongsTo(Company::class);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class);
     }
 
     public function scopeLatestFirst($query) {
