@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Settings\AccountController;
 use Illuminate\Http\Request;
 
 /*
@@ -54,4 +56,6 @@ Route::delete('/contacts/{id}', [ContactController::class, 'destroy'])->name('co
 //Auth::routes();
 Auth::routes(['verify' => true]);
 
-Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+Route::get('settings/account', [AccountController::class, 'index'])
+        ->name('settings.account');
