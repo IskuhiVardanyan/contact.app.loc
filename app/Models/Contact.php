@@ -6,6 +6,7 @@ use App\Scopes\ContactSearchScope;
 use App\Scopes\FilterScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 
 /**
@@ -44,11 +45,13 @@ class Contact extends Model
 
     public $filterColumns = ['company_id'];
 
-    public function company(){
+    public function company():BelongsTo
+    {
         return $this->belongsTo(Company::class);
     }
 
-    public function user(){
+    public function user():BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
 

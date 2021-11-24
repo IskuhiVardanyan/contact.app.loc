@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 
 
 class ContactController extends Controller
@@ -42,7 +43,8 @@ class ContactController extends Controller
         return view('contacts.create', compact('companies', 'contact'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request):RedirectResponse
+    {
         //dd($request->all());
         // dd($request->only('first_name', 'last_name'));
         // dd($request->except('first_name', 'last_name'));
@@ -71,15 +73,16 @@ class ContactController extends Controller
         return view('contacts.show', compact('contact'));
     }
 
-    public function edit($id){
+    public function edit(Contact $contact){
         $user = auth()->user();
-        $contact = Contact::findOrFail($id);
+//        $contact = Contact::findOrFail($id);
         $companies = $user->companies()->orderBy('id')->pluck('name', 'id')
             ->prepend('All companies', '');
         return view('contacts.edit', compact('contact', 'companies'));
     }
 
-    public function update($id, Request $request){
+    public function update(Contact $contact, Request $request):RedirectResponse
+    {
 //        DB::enableQueryLog();
 //        dd($request->cookie('first_name'));
 //        $user = auth()->user();
@@ -91,14 +94,15 @@ class ContactController extends Controller
             'company_id'    => 'required|exists:companies,id'
         ]);
 //        dd($request->all());
-        $contact = Contact::findOrFail($id);
+//        $contact = Contact::findOrFail($id);
         $contact->update($request->all());
 //        dd(DB::getQueryLog());
         return redirect()->route('contacts.index')->with('message', 'Contact has been updated successfully');
     }
 
-    public function destroy($id){
-        $contact = Contact::findOrFail($id);
+    public function destroy(Contact $contact):RedirectResponse
+    {
+//        $contact = Contact::findOrFail($id);
         $contact->delete();
         return redirect()->route('contacts.index')->with('message', 'Contact' . " " . $contact->id . " " .
             'has been deleted successfully');
