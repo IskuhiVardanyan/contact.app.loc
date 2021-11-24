@@ -62,11 +62,12 @@ class ContactController extends Controller
         return redirect()->route('contacts.index')->with('message', 'Contact has been added successfully');
     }
 
-    public function show($id){
+    public function show(Contact $contact){
 //...........Other version...............
 //        $user = auth()->user();
 //        $contact = $user->contacts()->findOrFail($id);
-        $contact = Contact::findOrFail($id);
+//.....This is not used after defining a model in ContactControllers show(Contact $contact) method as its argument.....
+//        $contact = Contact::findOrFail($id);
         return view('contacts.show', compact('contact'));
     }
 

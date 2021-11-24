@@ -75,4 +75,9 @@ class Contact extends Model
         static::addGlobalScope(new FilterScope());
         static::addGlobalScope(new ContactSearchScope());
     }
+
+//    public function getRouteKeyName()
+//    {
+//        return 'first_name';
+//    }
 }

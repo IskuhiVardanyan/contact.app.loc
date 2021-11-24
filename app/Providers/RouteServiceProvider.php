@@ -7,6 +7,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use App\Models\Contact;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -35,6 +36,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+//........ Explicit binding where first_name is the segment............
+//        Route::bind('contact', function ($value) {
+//            return Contact::where('first_name', $value)->firstOrFail();
+//        });
+//.........Explicit binding when changing getRouteKeyName()..........
+//        Route::model('contact', Contact::class);
+
         $this->configureRateLimiting();
 
         $this->routes(function () {
