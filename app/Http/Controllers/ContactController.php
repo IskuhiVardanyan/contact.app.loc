@@ -6,10 +6,12 @@ use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Models\Contact;
 use App\Models\User;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 
 class ContactController extends Controller
@@ -19,7 +21,13 @@ class ContactController extends Controller
         $this->middleware(['auth', 'verified']);
     }
 
-    public function index(){
+    /**
+     * Display a listing of the contacts table.
+     *
+     * @return View
+     */
+    public function index():View
+    {
         $user = auth()->user();
         $contacts = $user->contacts()->latestFirst()->paginate(10);
 //........Finding authenticated users companies...................
@@ -34,7 +42,13 @@ class ContactController extends Controller
         return view('contacts.index', compact('contacts', 'companies'));
     }
 
-    public function create(){
+    /**
+     * Show the form for creating a new contact.
+     *
+     * @return View
+     */
+    public function create():View
+    {
         $user = auth()->user();
         $contact = new Contact();
         $companies = $user->companies()->orderBy('name')->pluck('name','id')
@@ -43,6 +57,12 @@ class ContactController extends Controller
         return view('contacts.create', compact('companies', 'contact'));
     }
 
+    /**
+     * Store a newly created contact in contacts table.
+     *
+     * @param  Request  $request
+     * @return RedirectResponse
+     */
     public function store(Request $request):RedirectResponse
     {
         //dd($request->all());
@@ -64,7 +84,14 @@ class ContactController extends Controller
         return redirect()->route('contacts.index')->with('message', 'Contact has been added successfully');
     }
 
-    public function show(Contact $contact){
+    /**
+     * Display the specified contact.
+     *
+     * @param  Contact  $contact
+     * @return View
+     */
+    public function show(Contact $contact):View
+    {
 //...........Other version...............
 //        $user = auth()->user();
 //        $contact = $user->contacts()->findOrFail($id);
@@ -73,7 +100,14 @@ class ContactController extends Controller
         return view('contacts.show', compact('contact'));
     }
 
-    public function edit(Contact $contact){
+    /**
+     * Show the form for editing the specified contact.
+     *
+     * @param  Contact  $contact
+     * @return View
+     */
+    public function edit(Contact $contact):View
+    {
         $user = auth()->user();
 //        $contact = Contact::findOrFail($id);
         $companies = $user->companies()->orderBy('id')->pluck('name', 'id')
@@ -81,6 +115,13 @@ class ContactController extends Controller
         return view('contacts.edit', compact('contact', 'companies'));
     }
 
+    /**
+     * Update the specified contact in contacts table.
+     *
+     * @param  Request  $request
+     * @param  Contact  $contact
+     * @return RedirectResponse
+     */
     public function update(Contact $contact, Request $request):RedirectResponse
     {
 //        DB::enableQueryLog();
@@ -100,6 +141,12 @@ class ContactController extends Controller
         return redirect()->route('contacts.index')->with('message', 'Contact has been updated successfully');
     }
 
+    /**
+     * Remove the specified contact from contacts table.
+     *
+     * @param  Contact  $contact
+     * @return RedirectResponse
+     */
     public function destroy(Contact $contact):RedirectResponse
     {
 //        $contact = Contact::findOrFail($id);
