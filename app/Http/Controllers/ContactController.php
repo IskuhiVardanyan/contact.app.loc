@@ -37,8 +37,7 @@ class ContactController extends Controller
 //.................................................................
 
 //.........Other way of finding authenticated users................
-        $companies = $user->companies()->orderBy('name')->pluck('name','id')
-            ->prepend('All companies', '');
+        $companies = Company::userCompanies();
         return view('contacts.index', compact('contacts', 'companies'));
     }
 
@@ -51,8 +50,7 @@ class ContactController extends Controller
     {
         $user = auth()->user();
         $contact = new Contact();
-        $companies = $user->companies()->orderBy('name')->pluck('name','id')
-            ->prepend('All companies', '');
+        $companies = Company::userCompanies();
        // dd($companies);
         return view('contacts.create', compact('companies', 'contact'));
     }
@@ -108,10 +106,8 @@ class ContactController extends Controller
      */
     public function edit(Contact $contact):View
     {
-        $user = auth()->user();
 //        $contact = Contact::findOrFail($id);
-        $companies = $user->companies()->orderBy('id')->pluck('name', 'id')
-            ->prepend('All companies', '');
+        $companies = Company::userCompanies();
         return view('contacts.edit', compact('contact', 'companies'));
     }
 
