@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Scopes\CompanySearchScope;
+use App\Scopes\ContactSearchScope;
 use Database\Factories\CompanyFactory;
 use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
@@ -49,7 +51,7 @@ class Company extends Model
      */
     public function contacts():HasMany
     {
-        return $this->hasMany(Contact::class);
+        return $this->hasMany(Contact::class)->withoutGlobalScopes();
     }
 
     /**
@@ -64,8 +66,14 @@ class Company extends Model
         return auth()
                ->user()
                ->companies()
+               ->withoutGlobalScopes()
                ->orderBy('id')
                ->pluck('name', 'id')
-               ->prepend('All companies', '');;
+               ->prepend('All companies', '');
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope(new CompanySearchScope());
     }
 }

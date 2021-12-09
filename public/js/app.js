@@ -14,9 +14,10 @@ deleteContactBtn.forEach(function (button){
         }
     });
 });
- 
+
 if(selectBox){
     selectBox.addEventListener('change', function () {
+       // alert(this.value);
         let companyId = this.value || this.options[this.selectedIndex].value;
         window.location.href = window.location.href.split('?')[0] + '?company_id=' + companyId;
         console.log(this.value);
@@ -25,8 +26,10 @@ if(selectBox){
 
 if(btnClear != null){
     btnClear.addEventListener('click', function () {
-        input.value = "";
-        selectBox.selectedIndex = 0;
+        if(selectBox != null){
+            input.value = "";
+            selectBox.selectedIndex = 0;
+        }
         window.location.href = window.location.href.split('?')[0];
     });
 
